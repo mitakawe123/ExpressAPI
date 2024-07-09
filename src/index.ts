@@ -1,10 +1,6 @@
 import express from "express";
-import urlRouter from "../routes/urls";
+import urlRouter from "./routes/urls";
 import bodyParser from "body-parser";
-import ConnectMongo from "../db/mongo";
-
-//connect to mongoDB
-ConnectMongo();
 
 const app = express();
 const port = 3000;
