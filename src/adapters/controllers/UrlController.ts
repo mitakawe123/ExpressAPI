@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IShortenUrlCommand } from "../../entity/IShortenUrlCommand";
+import { IShortenUrlCommand } from "../../entity/interfaces/IShortenUrlCommand.inteface";
 
 type CreateUrlRequest = {
 	originalUrl: string;
@@ -22,3 +22,5 @@ class UrlController {
 		}
 	}
 }
+
+export default UrlController;

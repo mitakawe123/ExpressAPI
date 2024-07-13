@@ -1,5 +1,5 @@
-import { IShortenUrlCommand } from "../entity/IShortenUrlCommand";
-import { IUrlRepository } from "../entity/IUrlRepository";
+import { IShortenUrlCommand } from "../entity/interfaces/IShortenUrlCommand.inteface";
+import { IUrlRepository } from "../entity/interfaces/IUrlRepository.interface";
 
 class ShortenUrlCommand implements IShortenUrlCommand {
 	private readonly urlRepository: IUrlRepository;

@@ -1,21 +1,51 @@
-import mongoose from "mongoose";
-import { IMongo } from "./IMongo";
+import { Document, Model, connection, connect, Types } from "mongoose";
 
-class Mongo implements IMongo {
-	init(): void {
-		mongoose.connect("mongodb://localhost/UrlShort", { autoIndex: true });
+export interface IMongo<T> {
+	connect(): void;
+	create(data: T): Promise<T>;
+	findById(id: Types.ObjectId): Promise<T | null>;
+	update(id: Types.ObjectId, data: Partial<T>): Promise<T | null>;
+	delete(id: Types.ObjectId): Promise<T | null>;
+}
 
-		const db = mongoose.connection;
+class Mongo<T extends Document> implements IMongo<T> {
+	private model: Model<T>;
 
-		db.on("error", console.error.bind(console, "MongoDB connection error:"));
-		db.once("open", () => console.log("Connected to MongoDB"));
+	constructor(model: Model<T>) {
+		this.model = model;
 	}
 
-	save(): void {
-		throw new Error("Method not implemented.");
+	connect(): void {
+		connect("mongodb://localhost/UrlShort", {
+			autoIndex: true,
+			appName: "URLShortening",
+		});
+
+		connection.on(
+			"error",
+			console.error.bind(console, "MongoDB connection error:")
+		);
+		connection.once("open", () => console.log("Connected to MongoDB"));
 	}
 
-	findOne(): void {
-		throw new Error("Method not implemented.");
+	async create(data: T): Promise<T> {
+		const document = await this.model.create(data);
+		return document;
+	}
+
+	async findById(id: Types.ObjectId): Promise<T | null> {
+		const document = await this.model.findById(id);
+		return document;
+	}
+
+	async update(id: Types.ObjectId, data: Partial<T>): Promise<T | null> {
+		return this.model.findByIdAndUpdate(id, data, { new: true });
+	}
+
+	async delete(id: Types.ObjectId): Promise<T | null> {
+		const document = await this.model.findByIdAndDelete(id);
+		return document;
 	}
 }
+
+export default Mongo;
