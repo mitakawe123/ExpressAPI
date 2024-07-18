@@ -1,4 +1,6 @@
+import { Types } from "mongoose";
+import { IUrl } from "./IUrl.interface";
+
 export interface IUrlRepository {
-	save(): void;
-	findOne(): void;
+	findById(id: Types.ObjectId): Promise<IUrl>;
 }

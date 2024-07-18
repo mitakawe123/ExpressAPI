@@ -6,6 +6,7 @@ export interface IMongo<T> {
 	findById(id: Types.ObjectId): Promise<T | null>;
 	update(id: Types.ObjectId, data: Partial<T>): Promise<T | null>;
 	delete(id: Types.ObjectId): Promise<T | null>;
+	findOne(filterCriteria: Object): Promise<T | null>;
 }
 
 class Mongo<T extends Document> implements IMongo<T> {
@@ -35,6 +36,11 @@ class Mongo<T extends Document> implements IMongo<T> {
 
 	async findById(id: Types.ObjectId): Promise<T | null> {
 		const document = await this.model.findById(id);
+		return document;
+	}
+
+	async findOne(filterCriteria: Object): Promise<T | null> {
+		const document = await this.model.findOne(filterCriteria);
 		return document;
 	}
 

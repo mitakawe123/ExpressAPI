@@ -9,6 +9,6 @@ class ShortenUrlCommand implements IShortenUrlCommand {
 	}
 
 	async execute(originalUrl: string): Promise<void> {
-		throw new Error("Method not implemented.");
+		this.urlRepository.
 	}
 }
